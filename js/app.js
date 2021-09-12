@@ -6,12 +6,13 @@ const loadProducts = () => {
 };
 
 
+
 // show all product in UI 
 const showProducts = (products) => {
-  console.log(products)
-  const allProducts = products.map((pd) => pd);
-  for (const product of allProducts) {
+  for (const product of products) {
+
     const image = product.image;
+    const rate = Math.ceil(product.rating.rate);
     const div = document.createElement("div");
     div.classList.add("product");
     div.innerHTML = `<div class="single-product">
@@ -19,6 +20,15 @@ const showProducts = (products) => {
       <img class="product-image img-fluid" src=${image}></img>
       </div>
       <h3>${product.title}</h3>
+      
+      <span class="fa fa-star ${rate > 1 ? 'checked' : ''}"></span>
+      <span class="fa fa-star ${rate > 2 ? 'checked' : ''}"></span>
+      <span class="fa fa-star ${rate > 3 ? 'checked' : ''}"></span>
+      <span class="fa fa-star ${rate > 4 ? 'checked' : ''}"></span>
+      <span class="fa fa-star ${rate > 5 ? 'checked' : ''}"></span>
+
+      <span style="color: #690;">( Rating: ${product.rating.rate} )</span>
+      <p><i class="fa fa-users" aria-hidden="true"></i>: ${product.rating.count}</p>
       <p>Category: ${product.category}</p>
       <h2>Price: $ ${product.price}</h2>
       <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
@@ -28,6 +38,7 @@ const showProducts = (products) => {
     document.getElementById("all-products").appendChild(div);
   }
 };
+
 let count = 0;
 const addToCart = (id, price) => {
   count = count + 1;
