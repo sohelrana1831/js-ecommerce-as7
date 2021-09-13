@@ -5,7 +5,21 @@ const loadProducts = () => {
     .then((data) => showProducts(data));
 };
 
-
+// Modal dialog id
+const showProductDetails = document.getElementById("show-product-details");
+// API fetch for Product Details
+const loadProductDetails = async (id) =>{
+  showProductDetails.textContent = "";
+  const productDetailsApi = `https://fakestoreapi.com/products/${id}`;
+      try {
+        const Response = await fetch(productDetailsApi);
+        const data = await Response.json();
+        productDetailsData(data);
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 // show all product in UI 
 const showProducts = (products) => {
@@ -19,7 +33,7 @@ const showProducts = (products) => {
       <div>
       <img class="product-image img-fluid" src=${image}></img>
       </div>
-      <h3>${product.title}</h3>
+      <h4>${product.title}</h4>
       
       <span class="fa fa-star ${rate > 1 ? 'checked' : ''}"></span>
       <span class="fa fa-star ${rate > 2 ? 'checked' : ''}"></span>
@@ -31,13 +45,72 @@ const showProducts = (products) => {
       <p><i class="fa fa-users" aria-hidden="true"></i>: ${product.rating.count}</p>
       <p>Category: ${product.category}</p>
       <h2>Price: $ ${product.price}</h2>
-      <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now btn btn-success">add to cart</button>
-      <button id="details-btn" class="btn btn-danger">Details</button>
+      <button onclick="addToCart(${product.id},${product.price})" id="addToCart-btn" class="buy-now">Add to cart</button>
+      <button onclick="loadProductDetails(${product.id})" id="details-btn" class="product-details" data-bs-toggle="modal" data-bs-target="#exampleModal">Details</button>
       </div>
       `;
     document.getElementById("all-products").appendChild(div);
   }
 };
+
+// Display product details in modal
+const productDetailsData = details =>{
+  const div = document.createElement("div");
+  const rate = Math.ceil(details.rating.rate);
+  div.innerHTML = `
+      <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">${details.title}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+          <div class="card mb-3" style="border: none;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="${details.image}" class="img-fluid rounded-start" alt="${details.title}">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <div class="bd-callout bd-callout-warning"> 
+                  <h5 class="card-title">Price: $ ${details.price}</h5>
+                  
+                  <span class="fa fa-star ${rate > 1 ? 'checked' : ''}"></span>
+                  <span class="fa fa-star ${rate > 2 ? 'checked' : ''}"></span>
+                  <span class="fa fa-star ${rate > 3 ? 'checked' : ''}"></span>
+                  <span class="fa fa-star ${rate > 4 ? 'checked' : ''}"></span>
+                  <span class="fa fa-star ${rate > 5 ? 'checked' : ''}"></span>
+            
+                  <span> (Rating: <span style="color: #ffc107;">${details.rating.rate} </span>)</span>, 
+                  <span style="color: #690;"><i class="fa fa-users" aria-hidden="true"></i>: ${details.rating.count}</span>
+                  </div>
+                  <p class="card-text">${details.description}</p>
+                  <p class="card-text"><small class="text-muted">Category: ${details.category}</small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button type="button" onclick="addToCart(${details.id},${details.price})" class="btn btn-primary">
+        Add To Cart
+        </button>
+      </div>
+    </div>
+  `;
+  showProductDetails.appendChild(div);
+}
 
 let count = 0;
 const addToCart = (id, price) => {
@@ -92,4 +165,6 @@ const updateTotal = () => {
     getInputValue("total-tax");
   document.getElementById("total").innerText = parseFloat(grandTotal).toFixed(2);
 };
+
+
 loadProducts();

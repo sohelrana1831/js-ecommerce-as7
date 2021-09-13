@@ -4,15 +4,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ranga Shop</title>
+    <title>Shop Escentual</title>
     <link rel="stylesheet" href="./css/style.css" />
-    <!-- Latest compiled and minified CSS -->
-    <!-- <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-      crossorigin="anonymous"
-    /> -->
+    <!-- Bootstrap V-5.1.1 -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -35,27 +29,60 @@
   </head>
 
   <body>
-    <header></header>
-    <main class="main container-fluid">
-      <div class="search-field">
-        <div class="search-box">
-          <input id="input-field" class="search-field" type="text" />
-          <button
-            type="button"
-            class="btn btn-primary search-button"
-            data-toggle="button"
-            aria-pressed="false"
-            autocomplete="off"
-            id="search-btn"
-            onclick="loadProducts()"
-          >
-            Search
-          </button>
+    <header>
+      <div class="container">
+        <h1 class="text-center">
+          Welcome to
+          <span style="color: #0077b5">Shop Escentual</span>
+        </h1>
+        <div
+          class="
+            row
+            height
+            d-flex
+            justify-content-center
+            align-items-center
+            search-box
+          "
+        >
+          <div class="col-md-8">
+            <div class="search">
+              <i class="fa fa-search"></i>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search product...."
+              />
+              <button class="btn btn-success">Search</button>
+            </div>
+          </div>
         </div>
       </div>
+    </header>
+    <main class="main">
       <div class="row">
         <div class="col-md-9 col-lg-9 col-sm-7">
-          <div id="all-products" class=""></div>
+          <div class="container">
+            <span class="text-center pb-2"
+              >API fetch from
+              <span class=""
+                ><a href="https://fakestoreapi.com/" target="_blank"
+                  >Fake Store API</a
+                ></span
+              ></span
+            >
+            <div id="all-products" class=""></div>
+          </div>
+        </div>
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div id="show-product-details" class="modal-dialog modal-lg"></div>
         </div>
         <div class="col-md-3 col-lg-3 col-sm-5 cart-main">
           <div class="cart" id="my-cart">
@@ -102,7 +129,7 @@
               </tbody>
             </table>
             <div class="parces text-center">
-              <button class="btn btn-primary text-center">Buy Now</button>
+              <button class="text-center buy-now-button">Buy Now</button>
             </div>
           </div>
         </div>
